@@ -1,9 +1,21 @@
 % Specify the file path
-file_path = './Germany-7nodes/G7-matrix-1.txt';
+file_path = './Germany-7nodes/G7-topology.txt';
 
-% Use the load function to read the matrix
-matrix = load(file_path);
+% Read the file into a string and split it into lines
+lines = strsplit(fileread(file_path), '\n');
 
-% Display the matrix
-disp('Matrix read from file:');
+% Remove the first row and join the remaining lines
+output_string = strjoin(lines(2:end), '\n');
+
+% Convert the string to a matrix
+matrix = str2num(output_string);
+
+% Display the resulting matrix
 disp(matrix);
+
+s = matrix(:,4)';
+t = matrix(:,5)';
+weights = matrix(:,6)';
+
+G = graph(s,t,weights);
+plot(G,'EdgeLabel',G.Edges.Weight)
