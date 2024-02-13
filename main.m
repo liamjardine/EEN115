@@ -1,5 +1,7 @@
 %% Main
 
+clear;
+
 % Modulation
 modulation_formats = ["SC_DP_QPSK","SC_DP_16QAM","DP_16QAM"];
 % Topology
@@ -17,16 +19,29 @@ modulation = Modulation;
 modulation = set(modulation, modulation_formats(1));
 topology = topologies(1);
 traffic = traffics(1);
-k = 5;
+K = 5;
 
 % Matrix
 
 topology_Matrix = getTopologyMatrix(topology);
-traffix_Matrix = getTrafficMatrix(traffic);
+traffic_Matrix = getTrafficMatrix(traffic);
 
 % Find K shortest paths
+
+cellArray = {}; % Create an empty cell array
 
 source = 1;
 target = 6;
 
-kShortestPaths = kShortestPaths(traffix_Matrix, source, target, k);
+for k=1:K
+    cellArray{end+1} = kShortestPaths(traffic_Matrix, source, target, k);
+end
+
+% Calculate cost
+
+cost = modulation.Cost;
+path = cellArray{5};
+
+path_cost = getTransponderCost(path{5}, cost);
+
+
