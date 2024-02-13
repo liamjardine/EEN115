@@ -1,0 +1,23 @@
+classdef Modulation
+    %UNTITLED Summary of this class goes here
+    %   Detailed explanation goes here
+    
+    properties
+        Line_rate {mustBeNumeric}
+        Channel_BW {mustBeNumeric}
+        Maximum_length {mustBeNumeric}
+        Cost {mustBeNumeric}
+    end
+    methods
+        function mod = set('mod')
+        switch
+            case 'SC_DP_QPSK'
+                
+         mod.Line_rate = list(1);
+         mod.Channel_BW = list(2);
+         mod.Maximum_length = list(3);
+         mod.Cost = list(4);
+      end
+   end
+end
+

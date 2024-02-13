@@ -1,24 +1,56 @@
+%% Plot graph
+
 % Specify the file path
 file_path = './Germany-7nodes/G7-topology.txt';
 
-% Read the entire file including the first row
-data = dlmread(file_path);
+% Read the file into a string and split it into lines
+lines = strsplit(fileread(file_path), '\n');
 
-% Discard the first row
-data = data(2:end, :);
+% Remove the first row and join the remaining lines
+output_string = strjoin(lines(2:end), '\n');
+
+% Convert the string to a matrix
+matrix = str2num(output_string);
 
 % Display the resulting matrix
-disp(data);
+%disp(matrix);
 
-%s1 = matrix(:,4)';
-%t1 = matrix(:,5)';
-%weights1 = matrix(:,6)';
-%names1 = 1:length(s1);
+lx = (length(s));
+half = ceil(lx/2);
 
-%s = [1 1 1 2 2 3 3 4 5 5 6 7];
-%t = [2 4 8 3 7 4 6 5 6 8 7 8];
-%weights = [10 10 1 10 1 10 1 1 12 12 12 12];
-%names = {'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H'};
+s = matrix(:,4)';
+t = matrix(:,5)';
+weights = matrix(:,6)';
 
-%G = graph(s1,t1,weights1,names1);
-%G = graph(s,t,weights,names);
+G = graph(s(1:half),t(1:half),weights(1:half));
+
+x = [-1.5 -1.5 0 -0.5 0 1.5 1.5];
+y = [-1.5 1.5 1.5 0 -1.5 1.5 -1.5];
+p = plot(G,'EdgeLabel',G.Edges.Weight);
+
+[path1,d] = shortestpath(G,1,6);
+highlight(p,path1,'EdgeColor','g');
+
+cost = 1;
+
+path_cost = t_cost(path1, cost);
+
+%% Dijkstra
+
+% Specify the file path
+file_path = './Germany-7nodes/G7-matrix-1.txt';
+
+% Use the load function to read the matrix
+weightedGraph = load(file_path);
+
+startNode = 1; 
+
+[shortestDistances, predecessors] = dijkstra(weightedGraph, startNode);
+
+% Display the results
+disp('Shortest Distances:');
+disp(shortestDistances);
+disp('Predecessors:');
+disp(predecessors);
+
+%% FSU
