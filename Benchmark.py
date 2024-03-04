@@ -1,3 +1,5 @@
+import random
+
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -41,10 +43,8 @@ def rmsa_benchmark_algorithm(topology_graph, traffic_matrix, modulation_formats)
                             best_path = path
                             best_modulation = _
                             best_link = link
-                            cost_list.append(min_cost)
+                    cost_list.append(min_cost)
                 assigned_formats_matrix.append((i, j, best_path, best_modulation, best_link))
-
-
 
 
                 for i, j, path, modulation, link in assigned_formats_matrix:
@@ -52,8 +52,7 @@ def rmsa_benchmark_algorithm(topology_graph, traffic_matrix, modulation_formats)
                     print("Shortest path:", path)
                     print("Assigned modulation formats:", modulation)
                     # print("used number of link",link)
-
-            total_cost = sum(cost_list)
+    total_cost = sum(cost_list)
 
     spectrum_matrix = create_spectrum_matrix(topology_graph, num_spectrum_slots=320)
     for i, j, path, modulation, link in assigned_formats_matrix:
@@ -94,7 +93,7 @@ def basic_modulation_assignment(shortest_path, graph_dict, modulation_formats, t
         raise Exception(f"No feasible modulation format for link ({node_a}, {node_b})")
 
     # Select the format with minimum cost
-    selected_format, min_cost, num_links = min(feasible_formats, key=lambda x: x[1])
+    selected_format, min_cost, num_links = random.choice(feasible_formats)
     assigned_modulation_formats.append((shortest_path, selected_format, min_cost, num_links))
     return assigned_modulation_formats
 
